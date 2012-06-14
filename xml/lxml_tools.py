@@ -34,9 +34,9 @@ def xml2dict(tree, encoding='utf-8'):
             for tag in tag_names:
                 childs = tree.findall(tag)
                 if len(childs) > 1:
-                    aux[tag] = [xml2dict(c) for c in childs]
+                    aux[tag] = [recursive_lookup(c, encoding) for c in childs]
                 else:
-                    aux[tag] = xml2dict(childs[0])
+                    aux[tag] = recursive_lookup(childs[0], encoding)
             return aux
         else:
             return unicode(tree.text).encode(encoding)

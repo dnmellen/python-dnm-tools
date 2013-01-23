@@ -1,16 +1,23 @@
 '''Gevent useful decorators'''
 
+from functools import wraps, partial
+import gevent
 
 
-def async(func, timeout=2):
+def async(func=None, timeout=10):
     '''
-    Decorator for make functions asynchronous
+    Decorator to make functions asynchronous
+
+    @param timeout: seconds to timeout
     '''
+
+    if not callable(func):
+        return partial(async, timeout=timeout)
 
     @wraps(func)
     def wrapper(*args):
-        jobs = [gevent.spawn(func, *args)]
-        gevent.joinall(jobs, timeout=timeout)
-        return jobs[0].value
+        job = gevent.spawn(func, *args)
+        job.join(timeout=timeout)
+        return job.value
 
     return wrapper

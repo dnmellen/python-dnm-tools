@@ -55,5 +55,5 @@ def remove_rotation(image_path):
         # Rotate image
         with open(image_path, 'rb') as f:
             image = Image.open(f)
-            image.rotate(90)
+            image.rotate(degrees)
             image.save()

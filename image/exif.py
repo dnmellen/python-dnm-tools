@@ -16,11 +16,6 @@ PIL
 
     pip install Pillow
 
-
-GExiv2
-``````````````````````````
-
-    sudo apt-get install libexiv2-dev libgexiv2-2 gir1.2-gexiv2-0.4
 '''
 
 from PIL import Image
@@ -53,7 +48,6 @@ def remove_rotation(image_path):
         exif.save_file()
 
         # Rotate image
-        with open(image_path, 'rb') as f:
-            image = Image.open(f)
-            image.rotate(degrees)
-            image.save()
+        image = Image.open(image_path)
+        rotated_image = image.rotate(360 - degrees)
+        rotated_image.save()
